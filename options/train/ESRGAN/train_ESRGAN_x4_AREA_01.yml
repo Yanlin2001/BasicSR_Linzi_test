@@ -31,7 +31,7 @@ datasets:
     dataset_enlarge_ratio: 100
     prefetch_mode: ~
 
-  val1:
+  val:
     name: AREA
     type: PairedImageDataset
     dataroot_gt: datasets/MRI/Validation/HR
