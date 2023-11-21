@@ -39,30 +39,6 @@ datasets:
     io_backend:
       type: disk
 
-  val2:
-    name: NN
-    type: PairedImageDataset
-    dataroot_gt: datasets/MRI/Validation/HR
-    dataroot_lq: datasets/MRI/Validation/LR_INTER_NN
-    io_backend:
-      type: disk
-
-  val3:
-    name: CUBIC
-    type: PairedImageDataset
-    dataroot_gt: datasets/MRI/Validation/HR
-    dataroot_lq: datasets/MRI/Validation/LR_INTER_CUBIC
-    io_backend:
-      type: disk
-
-  val4:
-    name: LINEAR
-    type: PairedImageDataset
-    dataroot_gt: datasets/MRI/Validation/HR
-    dataroot_lq: datasets/MRI/Validation/LR_INTER_LINEAR
-    io_backend:
-      type: disk
-
 # network structures
 network_g:
   type: RRDBNet
