@@ -45,7 +45,7 @@ network_g:
   num_in_ch: 3
   num_out_ch: 3
   num_feat: 64
-  num_block: 6
+  num_block: 2
 
 network_d:
   type: VGGStyleDiscriminator
