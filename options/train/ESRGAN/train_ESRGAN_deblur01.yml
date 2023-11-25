@@ -43,13 +43,13 @@ datasets:
 network_g:
   type: RRDBNet
   num_in_ch: 3
-  num_out_ch: 1
+  num_out_ch: 3
   num_feat: 64
   num_block: 8
 
 network_d:
   type: VGGStyleDiscriminator
-  num_in_ch: 1
+  num_in_ch: 3
   num_feat: 64
 
 # path
