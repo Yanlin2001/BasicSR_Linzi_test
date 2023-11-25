@@ -49,7 +49,7 @@ network_g:
 
 network_d:
   type: VGGStyleDiscriminator
-  num_in_ch: 3
+  num_in_ch: 1
   num_feat: 64
 
 # path
