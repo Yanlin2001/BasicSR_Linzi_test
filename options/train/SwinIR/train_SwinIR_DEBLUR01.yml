@@ -1,38 +1,33 @@
 # general settings
-name: ESRGAN_DEBLUR_01
-model_type: ESRGANModel
+name: train_SwinIR_DEBLUR01
+model_type: SwinIRModel
 scale: 1
-num_gpu: 1  # set num_gpu: 0 for cpu mode
+num_gpu: auto
 manual_seed: 0
 
 # dataset and data loader settings
 datasets:
   train:
-    name: TRAIN
+    name: DIV2K
     type: PairedImageDataset
     dataroot_gt: /kaggle/input/div2k-bw-forblur-20231125/DIV2K_train_HR_BW/DIV2K_train_HR_BW
     dataroot_lq: /kaggle/input/div2k-bw-forblur-20231125/DIV2K_train_HR_BW/DIV2K_train_HR_BW_blurred
-    # (for lmdb)
-    # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
-    # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
     filename_tmpl: '{}'
     io_backend:
       type: disk
-      # (for lmdb)
-      # type: lmdb
 
-    gt_size: 128
+    gt_size: 256
     use_hflip: true
     use_rot: true
 
     # data loader
-    num_worker_per_gpu: 2
-    batch_size_per_gpu: 1
-    dataset_enlarge_ratio: 10
+    num_worker_per_gpu: 6
+    batch_size_per_gpu: 4
+    dataset_enlarge_ratio: 1
     prefetch_mode: ~
 
   val:
-    name: VAL
+    name: Set5
     type: PairedImageDataset
     dataroot_gt: /kaggle/input/div2k-bw-forblur-20231125/DIV2K_valid_HR_BW/DIV2K_valid_HR_BW
     dataroot_lq: /kaggle/input/div2k-bw-forblur-20231125/DIV2K_valid_HR_BW/DIV2K_valid_HR_BW_blurred
@@ -41,16 +36,18 @@ datasets:
 
 # network structures
 network_g:
-  type: RRDBNet
-  num_in_ch: 3
-  num_out_ch: 3
-  num_feat: 64
-  num_block: 2
-
-network_d:
-  type: VGGStyleDiscriminator
-  num_in_ch: 3
-  num_feat: 64
+  type: SwinIR
+  upscale: 1
+  in_chans: 3
+  img_size: 256
+  window_size: 8
+  img_range: 1.
+  depths: [6, 6, 6, 6, 6, 6]
+  embed_dim: 180
+  num_heads: [6, 6, 6, 6, 6, 6]
+  mlp_ratio: 2
+  upsampler: 'pixelshuffle'
+  resi_connection: '1conv'
 
 # path
 path:
@@ -63,18 +60,13 @@ train:
   ema_decay: 0.999
   optim_g:
     type: Adam
-    lr: !!float 1e-4
-    weight_decay: 0
-    betas: [0.9, 0.99]
-  optim_d:
-    type: Adam
-    lr: !!float 1e-4
+    lr: !!float 2e-4
     weight_decay: 0
     betas: [0.9, 0.99]
 
   scheduler:
     type: MultiStepLR
-    milestones: [10000, 20000, 30000, 40000]
+    milestones: [25000, 40000, 45000, 47500]
     gamma: 0.5
 
   total_iter: 50000
@@ -83,27 +75,8 @@ train:
   # losses
   pixel_opt:
     type: L1Loss
-    loss_weight: !!float 1e-2
+    loss_weight: 1.0
     reduction: mean
-  perceptual_opt:
-    type: PerceptualLoss
-    layer_weights:
-      'conv5_4': 1  # before relu
-    vgg_type: vgg19
-    use_input_norm: true
-    range_norm: false
-    perceptual_weight: 1.0
-    style_weight: 0
-    criterion: l1
-  gan_opt:
-    type: GANLoss
-    gan_type: vanilla
-    real_label_val: 1.0
-    fake_label_val: 0.0
-    loss_weight: !!float 5e-3
-
-  net_d_iters: 1
-  net_d_init_iters: 0
 
 # validation settings
 val:
