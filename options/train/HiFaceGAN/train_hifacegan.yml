@@ -115,8 +115,8 @@ train:
     fake_label_val: 0.0
     loss_weight: !!float 1.0
   feature_matching_opt:
-    type: GANFeatLoss
-    loss_weight: !!float 10.0
+    type: GANLoss
+    loss_weight: !!float 5e-3
     criterion: l1
 
   net_d_iters: 1
