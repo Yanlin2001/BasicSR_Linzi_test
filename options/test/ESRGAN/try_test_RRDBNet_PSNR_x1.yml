@@ -26,7 +26,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: experiments/001_RRDBNet_PSNR_x1_f64b23_CT01_B4G1_kaggle/models/net_g_latest.pth
+  pretrain_network_g: experiments/002_RRDBNet_PSNR_x1_f64b23_CT01_B4G1_kaggle/models/net_g_latest.pth
   strict_load_g: true
 
 # validation settings
