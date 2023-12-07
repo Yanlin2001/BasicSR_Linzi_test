@@ -11,7 +11,7 @@ datasets:
     name: MRI
     type: PairedImageDataset
     dataroot_gt: datasets/MRI/GT/Train
-    dataroot_lq: datasets/MRI/TrainLR/NN
+    dataroot_lq: datasets/MRI/TrainLR/NEAREST
     # (for lmdb)
     # dataroot_gt: datasets/DIV2K/DIV2K_train_HR_sub.lmdb
     # dataroot_lq: datasets/DIV2K/DIV2K_train_LR_bicubic_X4_sub.lmdb
@@ -35,7 +35,7 @@ datasets:
     name: NN
     type: PairedImageDataset
     dataroot_gt: datasets/MRI/GT/Validation
-    dataroot_lq: datasets/MRI/ValLR/NN
+    dataroot_lq: datasets/MRI/ValLR/NEAREST
     io_backend:
       type: disk
 
